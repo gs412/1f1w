@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
+  <object class="wxFrame" name="Dialog_hasrun">
+    <title>提示</title>
+    <centered>1</centered>
+    <size>200, 130</size>
+    <style>wxSYSTEM_MENU|wxCLOSE_BOX|wxCAPTION|wxSTAY_ON_TOP</style>
+    <object class="wxPanel" name="Panel1">
+      <object class="wxStaticText" name="msg1">
+        <label>程序已经启动</label>
+        <pos>60, 30</pos>
+        <size>150, 23</size>
+      </object>
+      <object class="wxButton" name="OkBtn">
+        <label>确定</label>
+        <pos>65, 90</pos>
+        <size>70, 23</size>
+      </object>
+    </object>
+  </object>
+</resource>

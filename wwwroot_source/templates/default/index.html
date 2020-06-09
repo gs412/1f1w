@@ -1,0 +1,151 @@
+<%inherit file="base.html"/>
+
+<%def name="title()">
+  % if stitle is None:
+    首页
+  % endif
+</%def>
+
+<%def name="js()">
+  <script src="/static/javascript/main.js"></script>
+  % if stitle is not None:
+    <script>
+	  document.title = c('${stitle}');
+    </script>
+  % endif
+</%def>
+
+<%def name="body()">
+  ${parent.head_menu('/')}
+  <table class="post_list" cellspacing="0">
+    <thead>
+      <tr>
+        <th width="30" nowrap="">点击</th>
+        <th width="30" nowrap="">回复</th>
+        <th>标题</th>
+        <th width="100">作者</th>
+        <th width="135">最后回复</th>
+      </tr>
+    </thead>
+    <tbody>
+      % for i, thread in enumerate(T):
+       % if i%2 == 0:
+        <tr>
+       % else:
+        <tr class="alt">
+       % endif
+          <td nowrap="">${thread.views}</td>
+          <td nowrap="">${thread.replies}</td>
+          <td class="title">
+		  	<a href="/post/${thread.tid}/" target="_blank">${thread.title}</a>
+			% if thread.displayorder == 1:
+				[<font color="red">置顶</font>]
+			% endif
+		  </td>
+          <td nowrap="">${thread.username}</td>
+          <td nowrap="">${thread.lastpost} &nbsp;${thread.lastpostuser}</td>
+        </tr>
+      % endfor
+    </tbody>
+  </table>
+  <div id="post_list_footer">
+    共有主题数<font color="#FF0000">${threads}</font>个，帖子数<font color="#FF0000">${posts}</font>篇
+  </div>
+  <div class="pagination pagi_p_list">
+    ${pagestr}
+  </div>
+  % if my.limit.post == 'on':
+  	<div id="editor">
+    	<a name="sub"></a>
+		<script type="text/javascript">
+			function showsecpic(){
+				$('secpic').src = '/seccode/?update=' + Math.random();
+				$('secdiv').style.display='';
+				$('secinput1').value = '';
+				$('secinput1').focus();
+			}
+			function postform_check(){
+				if($('title1').value == ''){
+					alert('帖子标题不能为空！');
+					$('title1').focus();
+					return;
+				}else if($('content1').value=='' && $('attach').value.length==0){
+					alert('帖子内容不能为空！');
+					$('content1').focus();
+					return;
+				}
+				% if my.limit.seccode == 'on':
+					checkseccode();
+				% else:
+					postform_submit();
+				% endif
+			}
+			function postform_submit(){
+				$('title').value = c($('title1').value, 'ENCODE');
+				$('content').value = c($('content1').value, 'ENCODE');
+				$('secinput').value = $('secinput1').value;
+				$('postform').submit();
+			}
+			function checkseccode(){
+				createXMLHttp();
+				xmlHttp.onreadystatechange = function(){checkseccode_dodo()};
+				xmlHttp.open("get","/seccode/check/"+$('secinput1').value+"/"+parseInt(Math.random()*100000)+"/",true);
+				xmlHttp.send(null);
+			}
+			function checkseccode_dodo(){
+				if(xmlHttp.readyState==4){
+					if(xmlHttp.status==200){
+						var result = xmlHttp.responseText;
+						if(result.indexOf('check_error.gif')>=0){
+							alert('验证码错误，请重新输入');
+							showsecpic();
+						}else{
+							postform_submit();
+						}
+					}
+				}
+			}
+		</script>
+		<table cellspacing="0" cellpadding="0" border="0">
+		  <tr>
+			<td width="50" nowrap="" valign="top">标　题:</td>
+			<td><input type="text" id="title1" style="width:425px;" /></td>
+		  </tr>
+		  <tr>
+			<td nowrap="" valign="top">内　容:</td>
+			<td><textarea style="font-size:13px; line-height:18px; font-family:宋体; width:516px; height:198px; padding:2px; overflow:auto; border:1px solid #719CBB;" id="content1"></textarea></td>
+		  </tr>
+		  <tr style="display:
+		  	% if my.limit.upattach != 'on':
+		  		none
+			% endif
+		  ">
+		  	<td nowrap valign="top">附　件:</td>
+			<td>
+				<form id="postform" action="/index/add/" method="post" enctype="multipart/form-data">
+					<input type="hidden" id="title" name="title" />
+					<input type="hidden" id="content" name="content" />
+					<input type="hidden" id="secinput" name="secinput" />
+					<input type="file" id="attach" name="attach" />
+				</form>
+			</td>
+		  </tr>
+		  <tr style="display:
+		    % if my.limit.seccode != 'on':
+				none
+			% endif
+		  ">
+		    <td nowrap valign="top">验证码:</td>
+			<td>
+			  <input type="text" id="secinput1" maxlength="4" style="width:50px;" onfocus="showsecpic()" /> 请点击后输入验证码
+			  <div id="secdiv" style="display:none;"><img id="secpic" />　<a href="javascript:showsecpic()"><font color="blue"><u>看不清?</u></font></a></div>
+			</td>
+		  </tr>
+		  <tr>
+			<td></td><td><input type="button" onclick="postform_check()" value=" 发 表 " /></td>
+		  </tr>
+		</table>
+  	</div>
+  % endif
+  ${parent.footer()}
+</%def>

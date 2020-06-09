@@ -1,0 +1,28 @@
+<%inherit file='profiles_base.html'/>
+
+<%def name='css()'>
+	<link rel="stylesheet" type="text/css" href="/static/css/css1.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/profiles.css" />
+</%def>
+
+<%def name='title()'>
+  资料修改 - 激活Email
+</%def>
+
+<%def name='body()'>
+  ${parent.menu(ac='activate')}
+  <form action="/profiles/activate/" method="post">
+    <table class="p-form">
+      <tr>
+        <td></td>
+        <td class="r-td">一封验证邮件已经发送至 ${my.email}，请登录该邮箱查看邮件并激活邮箱，如果您没收到邮件可以再次 <input type="submit" value="发送验证邮件"></td>
+      </tr>
+    </table>
+  </form>
+  <%call expr="parent.showface()">
+    <ul>
+      <li>如果没收到激活邮箱可以再激活一次</li>
+      <li>每15分钟只能激活一次</li>
+    </ul>
+  </%call>
+</%def>

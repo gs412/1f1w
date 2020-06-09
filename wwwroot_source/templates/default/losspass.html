@@ -1,0 +1,38 @@
+<%inherit file='base.html'/>
+<%inherit file='msg.html'/>
+
+<%def name='title()'>
+  找回密码
+</%def>
+
+<%def name='body()'>
+  ${parent.head_menu(None)}
+  <%call expr='parent.msg_base()'>
+    <form method="post">
+      <table class='t' cellspacing='0' cellpadding='0'>
+		<tr>
+		  <td class='l'>验证码：</td>
+		  <td>
+			<%include file="seccode.html"/><br />
+			<font color='#999999'>如果无法识别验证码，请点图片更换</font><br>
+			<input id="secinput" type="text" name="seccode" maxlength="4" size="4" onblur="checkseccode()"><span id="checkseccodeverify">&nbsp;</span>
+			<script>showsecpic();</script>
+			<br><br>
+		  </td>
+		</tr>
+        <tr>
+          <td class='l'>用户名：</td>
+          <td><input type="text" name="username" style="width:120px;"></td>
+        </tr>
+        <tr>
+          <td class='l'>邮 &nbsp;箱：</td>
+          <td><input type="text" name="email" style="width:120px;"></td>
+        </tr>
+        <tr>
+          <td class='l'></td>
+          <td><input type="submit" value=" 发 送 "></td>
+        </tr>
+      </table>
+    </form>
+  </%call>
+</%def>

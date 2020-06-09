@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
+  <object class="wxFrame" name="Frame">
+    <title>一花一世界</title>
+    <centered>1</centered>
+    <size>513, 402</size>
+    <style>wxSYSTEM_MENU|wxMINIMIZE_BOX|wxCLOSE_BOX|wxCAPTION</style>
+    <object class="wxPanel" name="panel">
+      <object class="wxStaticText">
+        <label>端口:</label>
+        <pos>123, 109</pos>
+      </object>
+      <object class="wxTextCtrl" name="port">
+        <pos>160, 105</pos>
+        <size>60,-1</size>
+        <maxlength>4</maxlength>
+      </object>
+      <object class="wxButton" name="start">
+        <label>启动网站</label>
+        <pos>120, 160</pos>
+      </object>
+      <object class="wxButton" name="stop">
+        <label>停止网站</label>
+        <pos>220, 160</pos>
+      </object>
+      <object class="wxButton" name="restart">
+        <label>重启网站</label>
+        <pos>320, 160</pos>
+      </object>
+      <object class="wxStaticText" name="status">
+        <pos>123, 204</pos>
+      </object>
+      <object class="wxStaticText" name="urltip">
+        <pos>123, 250</pos>
+        <label>网址:</label>
+      </object>
+      <object class="wxTextCtrl" name="myurl">
+        <pos>155, 250</pos>
+        <size>200,18</size>
+        <style>wxTE_READONLY</style>
+      </object>
+    </object>
+  </object>
+</resource>

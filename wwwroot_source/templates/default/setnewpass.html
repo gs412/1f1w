@@ -1,0 +1,31 @@
+<%inherit file='base.html'/>
+<%inherit file='msg.html'/>
+
+<%def name='title()'>
+  设置新密码
+</%def>
+
+<%def name='body()'>
+  ${parent.head_menu(None)}
+  <%call expr='parent.msg_base()'>
+    <form method="post">
+      <table class='t' cellspacing='0' cellpadding='0'>
+	  	<tr>
+		  <td colspan="2"><font color="#BBBBBB">请设置您的新密码</font></td>
+		</tr>
+        <tr>
+          <td class='l' nowrap>新 密 码：</td>
+          <td><input type="password" name="password" style="width:120px;"></td>
+        </tr>
+        <tr>
+          <td class='l' nowrap>确认密码：</td>
+          <td><input type="password" name="password2" style="width:120px;"></td>
+        </tr>
+        <tr>
+          <td class='l'></td>
+          <td><input type="submit" value=" 发 送 "></td>
+        </tr>
+      </table>
+    </form>
+  </%call>
+</%def>

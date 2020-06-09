@@ -1,0 +1,36 @@
+<%inherit file='base.html'/>
+
+<%def name='body()'>
+  ${parent.left_menu('/admin/chat/')}
+  <div style="float:left; padding:10px 0px 0px 30px; width:70%;">
+    <div style="border-bottom:2px #666666 solid; font-weight:bold; font-size:14px;">群聊设置</div>
+	<style>
+		.setting_tb td{
+			line-height:50px;
+		}
+		.setting_tb .l{
+			width:80px;
+			text-align:right;
+		}
+	</style>
+	<table class="setting_tb" border="0" cellpadding="0" cellspacing="0">
+	 <form method="post">
+	  <tr>
+	    <td class="l">群聊开关：</td>
+		<td>
+		  <input type="radio" name="chat_open" id="chat_1" value="1"
+		  	% if setting.chat_open == '1':
+		  		checked="checked"
+			% endif
+		  /><label for="chat_1">开启</label> &nbsp;
+		  <input type="radio" name="chat_open" id="chat_0" value="0"
+		  	% if setting.chat_open == '0':
+		  		checked="checked"
+			% endif
+		  /><label for="chat_0">关闭</label>
+		</td>
+	  </tr>
+	  <tr><td></td><td style="padding-top:20px;"><input type="submit" value="确定" /></td></tr>
+	 </form>
+	</table>
+</%def>

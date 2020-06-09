@@ -1,0 +1,65 @@
+<%inherit file='../base.html'/>
+
+<%def name='title()'>
+  系统设置 - ${setting.sitename}
+</%def>
+
+<%def name="js()">
+  <script src="/static/javascript/main.js"></script>
+  <script src="/static/javascript/admin.js"></script>
+</%def>
+
+<%def name='bodyadd()'>
+	onload="bodyonload();"
+</%def>
+
+<%def name='left_menu(ac)'>
+	<style>
+		#admin_left{
+			float:left;
+			background:#000;
+			width:100px;
+			border-right:#000 1px solid;
+			padding:0px;
+		}
+		#admin_left li{
+			float:right;
+			text-align:right;
+			margin:20px 0px 0px 0px;
+			width:80px;
+		}
+		#admin_left li a{
+			padding:2px 8px 1px 0px;
+			text-decoration:none;
+		}
+		#admin_left li a:hover{
+			background:#555;
+		}
+		#admin_left li.current{
+			height:17px;
+			line-height:17px;
+			border-width:1px 0 1px 1px;
+			margin:20px -1px 0px -2px;
+		}
+		#admin_left li.current a{
+			/*padding-right:7px;*/
+			background:#FFF;
+		}
+	</style>
+	${parent.head_menu(None)}
+	<div style="background:#000000; font-size:1px; line-height:1px; height:3px;">&nbsp;</div>
+	<ul id="admin_left" class="tab header">
+		<%
+			list_left_menu = [('/admin/',u'全局设置'),('/admin/post/',u'帖吧设置'),('/admin/chat/',u'群聊设置'),('/admin/group/',u'权限设置'),('/admin/user/',u'用户管理'),('/admin/deletedthread/',u'已删主题'),('/admin/deletedpost/',u'已删回帖')]
+			if setting.reg_invite == 'on':
+				list_left_menu.insert(1,('/admin/invite/',u'邀 请 码'))
+		%>
+		  % for t in list_left_menu:
+			% if t[0]==ac:
+				<li class="current"><a href="${t[0]}">${t[1]}</a></li>
+			% else:
+				<li><a href="${t[0]}">${t[1]}</a></li>
+			% endif
+		  % endfor
+	</ul>
+</%def>

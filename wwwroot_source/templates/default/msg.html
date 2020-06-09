@@ -1,0 +1,46 @@
+<%inherit file='base.html'/>
+
+<%def name='title()'>
+	% if rtitle is None:
+		提示
+	% else:
+    	${rtitle}
+	% endif
+</%def>
+
+<%def name='body()'>
+  ${parent.head_menu(None)}
+  <%call expr='msg_base()'>
+	<div style="width:300px; height:100px; padding:50px;">
+	  <span style="font-size:14px; font-weight:bold;">${msg}</span>
+	  <br /><br />
+	  % if referer == 'back':
+	    	<a href="javascript:history.back()">点此返回上一页</a>
+	  % elif referer is not None:
+	    	<a href="${referer}">点此返回上一页</a>
+	  % endif
+	  
+	  % if redirect == '/':
+	  		<a href="${redirect}">点此转到首页</a>
+	  % elif redirect is not None:
+	  		<a href="${redirect}">点此转到目标页面</a>
+	  % endif
+	</div>
+  </%call>
+</%def>
+
+<%def name='msg_base()'>
+  <table class='msg' align='center'>
+    <tr>
+      <td>
+        <div class='a'>
+          <div class='b'>
+            <div class='c'>
+              ${caller.body()}
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</%def>

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=${setting.charset}" />
+<title>${self.title()}</title>
+${self.js()}
+${self.css()}
+</head>
+
+<body${self.bodyadd()}>
+  <div class="userbar">
+    <div class='logo'>
+      <a href="/">${setting.sitename}</a>
+	  % if setting.freeurl_open == 'on':
+		  <% domain = 'http://' + setting.freeurl_username + '.' + setting.freeurl_domain %>
+		  <span class="domain"><a href="${domain}">${domain}</a></span>
+	  % endif
+    </div>
+	% if my.uid == 0:
+		<a href="/register/">注册</a> | <a href="/login/">登录</a>
+	% else:
+		% if my.groupid == 1:
+			<a href="/profiles/activate/"><b>${my.username}</b>(未验证)</a>&nbsp;
+		% else:
+			<a href="/profiles/face/"><b>${my.username}</b></a>&nbsp;
+		% endif
+		% if my.groupid == 4:
+			<a href="/admin/">系统设置</a>&nbsp;
+		% endif
+		<a href="/logout/">退出</a>
+	% endif
+  </div>
+  ${self.body()}
+</body>
+</html>
+
+
+<%def name="title()"></%def>
+
+<%def name="js()">
+  <script src="/static/javascript/main.js"></script>
+</%def>
+
+<%def name="css()">
+  % if not ('MSIE 6' in my.env.get('HTTP_USER_AGENT', '0') or 'MSIE 7' in my.env.get('HTTP_USER_AGENT', '0')):
+	<style>
+		html{overflow-y:scroll !important; overflow-y:auto;}
+	</style>
+  % endif
+  <link rel="stylesheet" type="text/css" href="/static/css/css1.css" />
+</%def>
+
+<%def name="bodyadd()"></%def>
+
+<%def name='head_menu(ac)'>
+	<%
+		tuple_head_menu = [('/',u'帖吧')]
+		if my.chat_open == '1':
+			tuple_head_menu.append(('/chat/',u'群聊'))
+	%>
+    <ul class="tab header">
+      % for t in tuple_head_menu:
+        % if t[0] == ac or (ac=='/post/' and t[0]=='/'):
+          <li class="current">
+        % else:
+          <li>
+        % endif
+          <a href="${t[0]}">${t[1]}</a>
+        </li>
+      % endfor
+	  % if ac == '/' and my.limit.post == 'on':
+	  	<li class="last">
+			<a class="newpost" onclick="newpost();"> </a>
+		</li>
+	  % endif
+    </ul>
+</%def>
+
+<%def name='footer()'>
+	<div class="footer">
+      Powered by
+	  <a href="http://www.1f1w.com" target="_blank">1F1W</a>
+	  ${setting.version}
+	  <a href="http://code.google.com/p/1f1w/" target="_blank">googlecode</a>
+	  <a href="https://github.com/gengshuai/1f1w" target="_blank">github</a>
+	  <br />
+      <span style="font-family:Helvetica,Arial,sans-serif; font-size:10px;">&copy; 2011</span>
+      ${setting.sitename}
+    </div>
+</%def>

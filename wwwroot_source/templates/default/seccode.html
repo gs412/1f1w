@@ -1,0 +1,18 @@
+<script type="text/javascript">
+    function showsecpic(){
+		updateseccode();
+		$('secpic').style.display='';
+	}
+    function updateseccode(){
+		$('secpic').src = '/seccode/?update='+ Math.random();
+		$('secinput').value = '';
+		$('checkseccodeverify').innerHTML = '&nbsp;';
+	}
+	function checkseccode(){
+		var put = "/seccode/check/"+$('secinput').value+"/"+parseInt(Math.random()*100000)+"/";
+		var out = 'checkseccodeverify';
+		ajax(put,out);
+	}
+</script>
+
+<img id="secpic" style='border:1px #DDD solid;display:none;cursor:pointer;' onclick="updateseccode()" />

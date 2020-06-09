@@ -1,0 +1,78 @@
+<%inherit file='base.html'/>
+
+<%def name='body()'>
+  ${parent.left_menu('/admin/invite/')}
+  <style>
+  	.t{
+		background:#CCCCCC;
+	}
+  	.t th{
+		font-weight:normal;
+		background:#EEEEEE;
+	}
+	.t td{
+		background:#FFFFFF;
+	}
+	.pagestr a{
+		color:#666;
+		padding:0 5px;
+		white-space:normal;
+	}
+	.pagestr span{
+		color:#FFF;
+		background:#666;
+		padding: 2px 3px;
+		margin:0 2px;
+		width:10px;
+	}
+  </style>
+  <script type="text/javascript">
+  	function clean_input(){
+		$('comment').style.color = '#000000';
+		$('comment').value = '';
+	}
+	function postform_submit(){
+		if($('comment').style.color != '#000000' || $('comment').value == ''){
+			alert('请填写备注信息');
+			$('comment').focus();
+			return;
+		}else{
+			$('form1').submit();
+		}
+	}
+  </script>
+  <div style="float:left; padding:10px 0px 0px 30px; width:70%;">
+    <div style="border-bottom:2px #666666 solid; font-weight:bold; font-size:14px;">邀 请 码</div>
+	<div style="color:#666; margin:0px 0px 20px 0px;">在“全局设置”里面选中“注册需要邀请码”本页面才会显示。管理员可以在这里生成邀请码送给想邀请的朋友</div>
+	<form method="post" id="form1" style="display:inline;">
+	  <input type="text" name="comment" id="comment" size="40" maxlength="20" style="color:#AAA" value="可以在这里填写被邀请人姓名等备注信息" onFocus="clean_input();">
+	</form>
+	<input type="submit" value="生成邀请码" onclick="postform_submit();"><br><br>
+	有效邀请码：
+	<table class="t" border="0" cellpadding="3" cellspacing="1">
+		<tr><th>邀请码</th><th width="200">备注信息</th><th>生成日期</th><th>操作</th></tr>
+	  % for i in I1:
+	  	<tr>
+		  <td><input type="text" value="${i.invite}" readonly="false" onfocus="this.select()"></td>
+		  <td>${i.comment}</td>
+		  <td>${i.createtime}</td>
+		  <td><a href="/admin/invite/delete/${i.iid}/">删除</a></td>
+		</tr>
+	  % endfor
+	</table><br><br>
+	已被使用过的邀请码
+	<table class="t" border="0" cellpadding="3" cellspacing="1">
+		<tr><th width="110">邀请码</th><th>使用者的用户名</th><th width="200">备注信息</th><th>生成日期</th><th>使用日期</th></tr>
+	  % for i in I2:
+	  	<tr>
+		  <td><font color="#666666">${i.invite}</font></td>
+		  <td>${i.username}</td>
+		  <td>${i.comment}</td>
+		  <td>${i.createtime}</td>
+		  <td>${i.usedtime}</td>
+		</tr>
+	  % endfor
+	</table>
+	<div class="pagestr">${pagestr}</div>
+  </div>
+</%def>

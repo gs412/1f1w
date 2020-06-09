@@ -1,0 +1,136 @@
+<%inherit file='base.html'/>
+
+<%def name='body()'>
+  ${parent.left_menu('/admin/group/')}
+  <div style="float:left; padding:10px 0px 0px 30px; width:70%;">
+    <div style="border-bottom:2px #666666 solid; font-weight:bold; font-size:14px;">权限设置</div>
+	<style>
+		.table1{
+			background:#EFEFEF;
+		}
+		.table1 td{
+			background:#FFFFFF;
+		}
+	</style>
+	<div>
+	  <table class='table1' border="0" cellpadding="6" cellspacing="1">
+	   <form method="post">
+	    <tr>
+		  <td></td><td width="100">注册用户</td><td width="100">未验证用户</td><td width="100">游客</td>
+		</tr>
+		<tr>
+		  <td>进入贴吧</td>
+		  <td><input type="checkbox" name="group_g2_visit"
+		  	% if setting.group.g2.visit == 'on':
+				checked
+			% endif
+		   /></td>
+		  <td><input type="checkbox" name="group_g1_visit"
+		  	% if setting.group.g1.visit == 'on':
+				checked
+			% endif
+		   /></td>
+		  <td><input type="checkbox" name="group_g0_visit"
+		  	% if setting.group.g0.visit == 'on':
+				checked
+			% endif
+		  /></td>
+		</tr>
+		<tr>
+		  <td>看帖权限</td>
+		  <td><input type="checkbox" name="group_g2_view"
+		  	% if setting.group.g2.view == 'on':
+				checked
+			% endif
+		   /></td>
+		  <td><input type="checkbox" name="group_g1_view"
+		  	% if setting.group.g1.view == 'on':
+				checked
+			% endif
+		   /></td>
+		  <td><input type="checkbox" name="group_g0_view"
+		  	% if setting.group.g0.view == 'on':
+				checked
+			% endif
+		  /></td>
+		</tr>
+		<tr>
+		  <td>发帖权限</td>
+		  <td><input type="checkbox" name="group_g2_post"
+		  	% if setting.group.g2.post == 'on':
+				checked
+			% endif
+		  /></td>
+		  <td><input type="checkbox" name="group_g1_post"
+		  	% if setting.group.g1.post == 'on':
+				checked
+			% endif
+		  /></td>
+		  <td><input type="checkbox" name="group_g0_post"
+		  	% if setting.group.g0.post == 'on':
+				checked
+			% endif
+		  /></td>
+		</tr>
+		<tr>
+		  <td>需验证码</td>
+		  <td><input type="checkbox" name="group_g2_seccode"
+		  	% if setting.group.g2.seccode == 'on':
+				checked
+			% endif
+		  /></td>
+		  <td><input type="checkbox" name="group_g1_seccode"
+		  	% if setting.group.g1.seccode == 'on':
+				checked
+			% endif
+		  /></td>
+		  <td><input type="checkbox" name="group_g0_seccode"
+		  	% if setting.group.g0.seccode == 'on':
+				checked
+			% endif
+		  /></td>
+		</tr>
+		<tr>
+		  <td>上传附件</td>
+		  <td><input type="checkbox" name="group_g2_upattach"
+		  	% if setting.group.g2.upattach == 'on':
+				checked
+			% endif
+		  /></td>
+		  <td><input type="checkbox" name="group_g1_upattach"
+		  	% if setting.group.g1.upattach == 'on':
+				checked
+			% endif
+		  /></td>
+		  <td><input type="checkbox" name="group_g0_upattach"
+		  	% if setting.group.g0.upattach == 'on':
+				checked
+			% endif
+		  /></td>
+		</tr>
+		<tr>
+		  <td>下载附件</td>
+		  <td><input type="checkbox" name="group_g2_downattach"
+		  	% if setting.group.g2.downattach == 'on':
+				checked
+			% endif
+		  /></td>
+		  <td><input type="checkbox" name="group_g1_downattach"
+		  	% if setting.group.g1.downattach == 'on':
+				checked
+			% endif
+		  /></td>
+		  <td><input type="checkbox" name="group_g0_downattach"
+		  	% if setting.group.g0.downattach == 'on':
+				checked
+			% endif
+		  /></td>
+		</tr>
+		<tr>
+		  <td></td><td colspan="3"><input type="submit" value="确定" /></td>
+		</tr>
+	   </form>
+	  </table>
+	</div>
+  </div>
+</%def>

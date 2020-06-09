@@ -1,0 +1,191 @@
+<%inherit file='base.html'/>
+
+<%def name='title()'>
+  % if stitle is None:
+    ${T.title}
+  % endif
+</%def>
+
+<%def name="js()">
+  <script src="/static/javascript/main.js"></script>
+  % if stitle is not None:
+    <script>
+	  document.title = c('${stitle}');
+    </script>
+  % endif
+</%def>
+
+<%def name='body()'>
+  ${parent.head_menu('/post/')}
+  <div id="pb_content">
+    <ul class="thread_header">
+      <li>共有<font color="red">${T.replies}</font>篇帖子</li>
+      <li class="pagination pagi_p_view">${pagestr}</li>
+    </ul>
+    
+    <div class="thread_title">
+      <b>${T.title}</b>
+      <a href="javascript:reply(0)">快速回复</a>
+    </div>
+    
+    % for p in P:
+      <table class="post">
+        <tr>
+         % if p.uid > 0:
+          <td class="author" valign="top" nowrap="nowrap">
+            <ul>
+              <li class="face"><img src="/showfile/${p.face}" width="${p.facewidth}" height="${p.faceheight}" border="0" /></li>
+              <li class="name">${p.username}</li>
+            </ul>
+          </td>
+         % else:
+          <td class="guest" valign="top" nowrap="nowrap">
+            ${p.username}
+          </td>
+         % endif
+          <td class="content" valign="top">
+            <p class="floor">${p.floor}楼</p>
+            <cc>
+				${p.content}
+				% if p.attachment == 1:
+					<br /><br />
+					% if p.attach.isimage == 1:
+						% if p.attach.thumb == 1:
+							<a href="/showfile/attachment/${p.attach.attachment}" target="_blank">
+						% endif
+						<img src="/showfile/attachment/${p.attach.attachment}" border="0" width="${p.attach.width}" />
+						% if p.attach.thumb == 1:
+							</a>
+						% endif
+					% else:
+						<span class="attachment">
+							<a href="/downfile/${p.attach.aid}/" title="下载次数: ${p.attach.downloads}" target="_blank">${p.attach.filename}</a>
+							% if p.attach.filesize > 1024 * 1024:
+								(${p.attach.filesize/1024*1024} MB)
+							% elif p.attach.filesize > 1024:
+								(${p.attach.filesize/1024} KB)
+							% else:
+								(${p.attach.filesize} Byte)
+							% endif
+						</span>
+					% endif
+				% endif
+			</cc>
+            % if p.sightml and 'img' in p.sightml:
+              <img class="sign" src="/static/img/sign.png" border="0" />
+              ${p.sightml}
+            % endif
+          </td>
+        </tr>
+        <tr>
+          <td class="info" colspan="2">
+            ${p.dateline}
+			% if my.groupid == 4:
+				% if p.floor == 1:
+					% if T.displayorder == 0:
+						&nbsp;<a href="/post/settop/${p.tid}/">置顶</a>
+					% else:
+						&nbsp;<a href="/post/canceltop/${p.tid}/">去顶</a>
+					% endif
+				% endif
+				&nbsp;<a href="/post/delete/${p.pid}/">删除</a>
+			% endif
+			&nbsp;<a href="javascript:reply(${p.floor})">回复</a>
+          </td>
+        </tr>
+      </table>
+      <div class="post_split"></div>
+    % endfor
+
+    <ul class="thread_header">
+      <li>共有<font color="red">${T.replies}</font>篇帖子</li>
+      <li class="pagination pagi_p_view">${pagestr}</li>
+    </ul>
+	% if my.limit.post == 'on':
+      <div id="editor">
+      	<a name="sub"></a>
+      	<h2>发表回复</h2>
+	  	<script type="text/javascript">
+			function showsecpic(){
+				$('secpic').src = '/seccode/?update=' + Math.random();
+				$('secdiv').style.display='';
+				$('secinput1').value = '';
+				$('secinput1').focus();
+			}
+			function replyform_check(){
+				if($('content1').value == '' && $('attach').value.length==0){
+					alert('回复内容不能为空！');
+					$('content1').focus();
+					return;
+				}
+				% if my.limit.seccode == 'on':
+					checkseccode();
+				% else:
+					replyform_submit();
+				% endif
+			}
+			function replyform_submit(){
+				$('content').value = c($('content1').value, 'ENCODE');
+				$('secinput').value = $('secinput1').value;
+				$('replyform').submit();
+			}
+			function checkseccode(){
+				createXMLHttp();
+				xmlHttp.onreadystatechange = function(){checkseccode_dodo()};
+				xmlHttp.open("get","/seccode/check/"+$('secinput1').value+"/"+parseInt(Math.random()*100000)+"/",true);
+				xmlHttp.send(null);
+			}
+			function checkseccode_dodo(){
+				if(xmlHttp.readyState==4){
+					if(xmlHttp.status==200){
+						var result = xmlHttp.responseText;
+						if(result.indexOf('check_error.gif')>=0){
+							alert('验证码错误，请重新输入');
+							showsecpic();
+						}else{
+							replyform_submit();
+						}
+					}
+				}
+			}
+		</script>
+        <table cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td width="45" nowrap="" valign="top">内　容:</td>
+            <td><textarea style="font-size:13px; line-height:18px; font-family:宋体; width:516px; height:198px; padding:2px; overflow:auto; border:1px solid #719CBB;" id="content1"></textarea></td>
+          </tr>
+		  <tr style="display:
+		  	% if my.limit.upattach != 'on':
+		  		none
+			% endif
+		  ">
+		  	<td nowrap valign="top">附　件:</td>
+			<td>
+				<form id="replyform" action="/index/reply/" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="tid" value="${T.tid}" />
+					<input type="hidden" name="content" id="content" />
+					<input type="hidden" name="secinput" id="secinput" />
+					<input type="file" name="attach" id="attach" />
+				</form>
+			</td>
+		  </tr>
+		  <tr style="display:
+		    % if my.limit.seccode != 'on':
+				none
+			% endif
+		  ">
+		    <td nowrap valign="top">验证码:</td>
+			<td>
+			  <input type="text" id="secinput1" maxlength="4" style="width:50px;" onfocus="showsecpic()" /> 请点击后输入验证码
+			  <div id="secdiv" style="display:none;"><img id="secpic" />　<a href="javascript:showsecpic()"><font color="blue"><u>看不清?</u></font></a></div>
+			</td>
+		  </tr>
+          <tr>
+            <td></td><td><input type="button" onclick="replyform_check()" value=" 提 交 " /></td>
+          </tr>
+        </table>
+      </div>
+	% endif
+  </div>
+  ${parent.footer()}
+</%def>

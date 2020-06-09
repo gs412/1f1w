@@ -1,0 +1,28 @@
+<%inherit file='profiles_base.html'/>
+
+<%def name='css()'>
+	<link rel="stylesheet" type="text/css" href="/static/css/css1.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/profiles.css" />
+</%def>
+
+<%def name='title()'>
+  资料修改 - 修改签名
+</%def>
+
+<%def name='body()'>
+  ${parent.menu(ac='sign')}
+  <div style="padding:30px 0 0 100px;">
+    <img class="sign" src="/static/img/sign.png" border="0" />
+    ${my.sightml}<br /><br /><br />
+    <form action="/profiles/sign/" method="post" enctype="multipart/form-data">
+      <input type="file" name="mysign"><br /><br />
+      <input type="submit" value="保存签名">
+    </form>
+  </div>
+  <%call expr="parent.showface()">
+    <ul>
+      <li>上传真实头像方便网友认识你</li>
+      <li>头像最大不超过100K</li>
+    </ul>
+  </%call>
+</%def>

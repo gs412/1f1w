@@ -1,0 +1,115 @@
+<%inherit file='base.html'/>
+
+<%def name='body()'>
+  ${parent.left_menu('/admin/')}
+  <style>
+  	.setting_tb td{
+		line-height:18px;
+	}
+  	.setting_tb .l{
+		width:80px;
+		text-align:right;
+	}
+  </style>
+  <script type="text/javascript">
+  	function allowreg(){
+		if($('reg_open').checked){
+			$('div_allowreg').style.display = '';
+		}else{
+			$('div_allowreg').style.display = 'none';
+		}
+	}
+	function needinvite(){
+		if($('reg_invite').checked){
+			$('reg_seccode').checked = 'checked';
+		}
+	}
+	function needsmtp(){
+		if($('reg_email').checked){
+			$('smtp_tb').style.display = '';
+		}else{
+			$('smtp_tb').style.display = 'none';
+		}
+	}
+	function open_freeurl(){
+		if($('freeurl_open').checked){
+			$('freeurl_tb').style.display = '';
+		}else{
+			$('freeurl_tb').style.display = 'none';
+		}
+	}
+  </script>
+  <div style="float:left; padding:10px 0px 0px 30px; width:70%;">
+    <div style="border-bottom:2px #666666 solid; font-weight:bold; font-size:14px;">全局设置</div>
+	<table class="setting_tb" border="0" cellpadding="0" cellspacing="0">
+	 <form method="post">
+	  <tr><td colspan="2">&nbsp;</td></tr>
+	  <tr><td class="l">网站名称：</td><td><input name="sitename" value="${setting.sitename}"/></td></tr>
+	  <tr><td colspan="2">&nbsp;</td></tr>
+	  <tr>
+	  	<td class="l" valign="top">注册相关：</td>
+		<td>
+		  <input type="checkbox" name="reg_open" id="reg_open"
+		 	% if setting.reg_open == 'on':
+				checked="checked"
+			% endif
+		  onclick="allowreg();" /><label for="reg_open">开放注册</label><br />
+		  <div id='div_allowreg' style="display:
+		  	% if setting.reg_open != 'on':
+				none;
+			% endif
+		  ">
+			  <input type="checkbox" name="reg_seccode" id="reg_seccode"
+			  	% if setting.reg_seccode == 'on':
+			  		checked="checked"
+				% endif
+			  /><label for="reg_seccode">注册需要验证码</label><br />
+			  <input type="checkbox" name="reg_invite" id="reg_invite"
+			  	% if setting.reg_invite == 'on':
+			  		checked="checked"
+				% endif
+			  onclick="needinvite();" /><label for="reg_invite">注册需要邀请码</label><br />
+			  <input type="checkbox" name="reg_email" id="reg_email"
+			  	% if setting.reg_email == 'on':
+			  		checked="checked"
+				% endif
+			  onclick="needsmtp();" /><label for="reg_email">开启邮箱验证</label>
+			  <table id="smtp_tb" style="display:
+			  	% if setting.reg_email != 'on':
+					none;
+				% endif
+			  ">
+				<tr><td class="l">SMTP地址：</td><td><input name="smtp_server" value="${setting.smtp_server}" /></td></tr>
+				<tr><td class="l">SMTP端口：</td><td><input name="smtp_port" value="${setting.smtp_port}" /></td></tr>
+				<tr><td class="l">Email地址：</td><td><input name="smtp_username" value="${setting.smtp_username}" /></td></tr>
+				<tr><td class="l">Email密码：</td><td><input name="smtp_password" value="${setting.smtp_password}" /></td></tr>
+			  </table>
+		  </div>
+		</td>
+	  </tr>
+	  <tr><td colspan="2">&nbsp;</td></tr>
+	  <tr>
+	    <td class="l" valign="top">免费网址：</td>
+		<td>
+		  <input type="checkbox" name="freeurl_open" id="freeurl_open"
+		  	% if setting.freeurl_open == 'on':
+				checked
+			% endif
+		  onclick="open_freeurl();"/><label for="freeurl_open">开启免费网址</label>
+		  <table id="freeurl_tb" class="smtp_tb" style="display:
+		  	% if setting.freeurl_open != 'on':
+				none;
+			% endif
+		  ">
+		    <tr><td class="l">提交地址：</td><td><input name="freeurl_posturl" value="${setting.freeurl_posturl}" size="40" /></td></tr>
+			<tr><td class="l">域名后缀：</td><td><input name="freeurl_domain" value="${setting.freeurl_domain}" /></td></tr>
+		    <tr><td class="l">帐号：</td><td><input name="freeurl_username" value="${setting.freeurl_username}" /> <a href="http://wz.1f1w.com/register/" target="_blank">免费申请</td></tr>
+		    <tr><td class="l">密码：</td><td><input name="freeurl_password" value="${setting.freeurl_password}" /></td></tr>
+		  </table>
+		</td>
+	  </tr>
+	  <tr><td></td><td style="padding-top:20px;"><input type="submit" value="确定" /></td></tr>
+	 </form>
+	</table>
+  </div>
+</%def>

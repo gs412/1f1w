@@ -1,0 +1,43 @@
+<%inherit file='base.html'/>
+
+<%def name='body()'>
+  ${parent.left_menu('/admin/deletedthread/')}
+  <div style="float:left; padding:10px 0px 0px 30px; width:70%;">
+    <div style="border-bottom:2px #666666 solid; font-weight:bold; font-size:14px;">已删主题</div>
+	<style>
+		.pagestr a{
+			color:#000066;
+			padding:0 5px;
+			white-space:normal;
+		}
+		.pagestr span{
+			color:#FFF;
+			background:#000066;
+			padding: 2px 3px;
+			margin:0 2px;
+			width:10px;
+		}
+		.threads .l{
+			color:#0000FF;
+			font-weight:bold;
+		}
+		.threads .r a{
+			color:#000066;
+		}
+	</style>
+	<div>
+		<table class="threads" border="0" cellpadding="7" cellspacing="0">
+		  <tr>
+		  	<td width="100">标题</td><td width="100">操作</td>
+		  </tr>
+		% for thread in threads:
+		  <tr>
+			<td class="l">${thread.title}</td>
+			<td class="r"><a href="/admin/thread/delete/${thread.tid}/">删除</a></td>
+		  </tr>
+		% endfor
+		</table>
+		<div class="pagestr">${pagestr}</div>
+	</div>
+  </div>
+</%def>

@@ -1,0 +1,50 @@
+<%inherit file='base.html'/>
+
+<%def name='body()'>
+  ${parent.left_menu('/admin/user/')}
+  <div style="float:left; padding:10px 0px 0px 30px; width:70%;">
+    <div style="border-bottom:2px #666666 solid; font-weight:bold; font-size:14px;">用户管理</div>
+	<style>
+		.pagestr a{
+			color:#000066;
+			padding:0 5px;
+			white-space:normal;
+		}
+		.pagestr span{
+			color:#FFF;
+			background:#000066;
+			padding: 2px 3px;
+			margin:0 2px;
+			width:10px;
+		}
+		.users .l{
+			color:#0000FF;
+			font-weight:bold;
+		}
+		.users .r a{
+			color:#000066;
+		}
+	</style>
+	<script type="text/javascript">
+		function deluser(uid, name){
+			if(confirm('确实要删 '+name+' 除吗？')){
+				window.location = '/admin/user/delete/'+uid+'/';
+			}
+		}
+	</script>
+	<div>
+		<table class="users" border="0" cellpadding="7" cellspacing="0">
+		  <tr>
+		  	<td width="100">用户名</td><td width="100">操作</td>
+		  </tr>
+		% for user in users:
+		  <tr>
+			<td class="l">${user.username}</td>
+			<td class="r"><a href="javascript:deluser(${user.uid}, '${user.username}');">删除</a></td>
+		  </tr>
+		% endfor
+		</table>
+		<div class="pagestr">${pagestr}</div>
+	</div>
+  </div>
+</%def>

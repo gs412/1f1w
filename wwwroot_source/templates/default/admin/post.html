@@ -1,0 +1,39 @@
+<%inherit file='base.html'/>
+
+<%def name='body()'>
+  ${parent.left_menu('/admin/post/')}
+  <style>
+  	.setting_tb td{
+		line-height:50px;
+	}
+  	.setting_tb .l{
+		width:120px;
+		text-align:right;
+	}
+  </style>
+  <div style="float:left; padding:10px 0px 0px 30px; width:70%;">
+    <div style="border-bottom:2px #666666 solid; font-weight:bold; font-size:14px;">贴吧设置</div>
+	<table class="setting_tb" border="0" cellpadding="0" cellspacing="0">
+	 <form method="post">
+	  <tr><td class="l">每页显示主题数：</td><td><input name="perpage_list" value="${setting.perpage_list}"/></td></tr>
+	  <tr><td class="l">每帖显示楼层数：</td><td><input name="perpage_post" value="${setting.perpage_post}"/></td></tr>
+	  <tr>
+	    <td class="l">帖子内容加密：</td>
+		<td>
+		  <input type="radio" name="authcode_open" id="auth_1" value="1"
+		  	% if setting.authcode_open == '1':
+		  		checked="checked"
+			% endif
+		  /><label for="auth_1">开启</label> &nbsp;
+		  <input type="radio" name="authcode_open" id="auth_0" value="0"
+		  	% if setting.authcode_open == '0':
+		  		checked="checked"
+			% endif
+		  /><label for="auth_0">关闭</label>
+		</td>
+	  </tr>
+	  <tr><td></td><td style="padding-top:20px;"><input type="submit" value="确定" /></td></tr>
+	 </form>
+	</table>
+  </div>
+</%def>

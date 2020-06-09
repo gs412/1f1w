@@ -1,0 +1,50 @@
+<%inherit file='base.html'/>
+
+<%def name='menu(ac)'>
+  ${parent.head_menu(None)}
+  <div class="profiles">
+    <div class="p-title">
+      帐号设置
+    </div>
+    <div class="l-col">
+      <%
+	  	items = [('face',u'修改头像'),('password',u'修改密码'),('sign',u'修改签名'),('email',u'修改邮箱')]
+		if my.groupid == 1:
+			items.append(('activate',u'激活邮箱'))
+	  %>
+      <ul class="tab ul1">
+        % for i in items:
+          % if i[0] == ac:
+            <li class="current"><b>${i[1]}</b></li>
+          % else:
+            <li><a href="/profiles/${i[0]}/">${i[1]}</a></li>
+          % endif
+        % endfor
+      </ul>
+</%def>
+
+<%def name='showface()'>
+    </div>
+    <div class='r-col'>
+      <div class="r-container">
+        <div class="inner">
+          <div class="inner-content">
+  	  	    <img src="/showfile/${my.face}" width="${float(my.facewidth)/2}" height="${float(my.faceheight)/2}" />
+            <div class="user-info">
+              <p class="username">${my.username}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='r-col'>
+      <div class="r-container">
+        <div class="inner">
+          <div class="inner-content">
+  	  	    ${caller.body()}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</%def>
